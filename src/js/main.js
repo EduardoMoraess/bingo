@@ -38,28 +38,26 @@ Math.floor(): Arredonda o valor para baixo para termos um número inteiro.
 */
 
 //ir para o bingo
-function bingo()
+function iniciarScripts() 
 {
-    const mudarPagina = document.getElementById('bingo');
-
-    if(mudarPagina){
-        mudarPagina.addEventListener('click', ()=>{
-            window.location.href = './src/pages/tela_bingo.html';
-        })
-    }
-}
-window.onload = bingo;
-
-
-function controleBingo()
-{
-    const telaControle = document.getElementById('controle');
-
-    if(telaControle)
+    // Lógica do botão Bingo
+    const btnBingo = document.getElementById('bingo');
+    if (btnBingo) 
     {
-        telaControle.addEventListener('click', ()=>{
-            location.href = './src/pages/controleBingo.html'
-        })
+        btnBingo.addEventListener('click', () => {
+            window.location.href = './src/pages/tela_bingo.html';
+        });
+    }
+
+    // Lógica do botão Controle
+    const btnControle = document.getElementById('controle');
+    if (btnControle) 
+    {
+        btnControle.addEventListener('click', () => {
+            window.location.href = './src/pages/controleBingo.html';
+        });
     }
 }
-window.onload = controleBingo
+
+// Chama uma única vez para carregar as duas funções
+window.onload = iniciarScripts;
