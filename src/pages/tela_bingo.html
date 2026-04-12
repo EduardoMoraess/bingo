@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Painel de Conferência - Bingo 300</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #121212;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2979ff;
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #888;
+            margin-bottom: 25px;
+        }
+
+        .acoes {
+            margin-bottom: 20px;
+        }
+
+        .btn-print {
+            padding: 12px 25px;
+            background: #2979ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .container-bingo {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            /* 15 colunas para ficar compacto */
+            gap: 5px;
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .numero {
+            padding: 10px 2px;
+            background: #2d2d2d;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #aaa;
+            /* Removido o cursor pointer e eventos de clique */
+            cursor: default;
+            border: 1px solid transparent;
+        }
+
+        /* Estilo para o número que JÁ ESTÁ VENDIDO no sistema de controle */
+        .vendido {
+            background: #b71c1c !important;
+            /* Vermelho escuro para indicar ocupado */
+            color: white !important;
+            font-weight: bold;
+            border-color: #ff5252;
+            text-decoration: line-through;
+            /* Risca o número vendido */
+            opacity: 0.6;
+        }
+
+        /* 📱 RESPONSIVO */
+        @media (max-width: 800px) {
+            .container-bingo {
+                grid-template-columns: repeat(10, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .container-bingo {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+
+        /* 🖨️ MODO IMPRESSÃO */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .acoes,
+            p {
+                display: none;
+            }
+
+            .container-bingo {
+                grid-template-columns: repeat(15, 1fr);
+                background: white;
+                gap: 2px;
+            }
+
+            .numero {
+                background: white !important;
+                border: 1px solid #ddd !important;
+                color: #ccc !important;
+            }
+
+            .vendido {
+                background: #eee !important;
+                color: #000 !important;
+                border: 1px solid #000 !important;
+                text-decoration: line-through;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📋 Bingo </h1>
+    <p>Os números riscados abaixo já foram marcados no seu Sistema de Controle.</p>
+
+    <div class="acoes">
+        <button class="btn-print" onclick="window.print()">Imprimir Relatório</button>
+        <button class="btn-print" style="background: #444;" onclick="location.reload()">Atualizar Dados</button>
+    </div>
+
+    <div id="grid-bingo" class="container-bingo">
+    </div>
+
+    <script>
+        // Usa a mesma chave "bingo_v2" do código anterior para ler os dados
+        const marcados = JSON.parse(localStorage.getItem("bingo_v2")) || {};
+
+        function renderizarPainel() {
+            const grid = document.getElementById("grid-bingo");
+
+            for (let i = 1; i <= 300; i++) {
+                const numDiv = document.createElement("div");
+                numDiv.className = "numero";
+                numDiv.innerText = i;
+
+                // Verifica se o número consta como marcado no LocalStorage
+                if (marcados[i]) {
+                    numDiv.classList.add("vendido");
+                }
+
+                grid.appendChild(numDiv);
+            }
+        }
+
+        // Inicia a renderização ao carregar a página
+        renderizarPainel();
+    </script>
+
+</body>
+
+</html>

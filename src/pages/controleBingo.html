@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciador de Bingo 300</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #121212;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            color: #2979ff;
+        }
+
+        .status {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #00c853;
+        }
+
+        .acoes {
+            margin-bottom: 20px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        button {
+            padding: 12px 24px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .btn-reset {
+            background: #ff5252;
+            color: white;
+        }
+
+        .btn-print {
+            background: #2979ff;
+            color: white;
+        }
+
+        .bloco {
+            margin: 20px auto;
+            width: 100%;
+            max-width: 900px;
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .titulo {
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 8px;
+        }
+
+        .numero {
+            padding: 15px 5px;
+            background: #2d2d2d;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            user-select: none;
+            border: 1px solid transparent;
+        }
+
+        .numero:hover {
+            background: #444;
+            border-color: #2979ff;
+        }
+
+        /* Estilo do Vendido/Marcado na tela */
+        .marcado {
+            background: #00c853 !important;
+            color: black;
+            font-weight: bold;
+            position: relative;
+        }
+
+        /* 📱 RESPONSIVO */
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        /* 🖨️ MODO IMPRESSÃO - O PULO DO GATO */
+        @media print {
+            body {
+                background: white;
+                color: black;
+                padding: 0;
+            }
+
+            .acoes,
+            .status {
+                display: none;
+            }
+
+            h1 {
+                color: black;
+                font-size: 18pt;
+            }
+
+            .bloco {
+                background: white;
+                margin: 10px 0;
+                padding: 0;
+                page-break-inside: avoid;
+            }
+
+            .numero {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                color: #444 !important;
+                font-size: 10pt;
+            }
+
+            /* Destaque para os vendidos na impressão */
+            .marcado {
+                background: #e0e0e0 !important;
+                /* Cinza claro para economizar tinta */
+                border: 2px solid #000 !important;
+                color: #000 !important;
+            }
+
+            .marcado::after {
+                content: "✘";
+                /* Adiciona um X visual no número vendido */
+                position: absolute;
+                top: 2px;
+                right: 2px;
+                font-size: 8pt;
+                color: red;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🎯 Controle de Bingo (1 a 300)</h1>
+    <div class="status">Vendidos: <span id="count">0</span> / 300</div>
+
+    <div class="acoes">
+        <button class="btn-reset" onclick="resetar()">Limpar Tudo</button>
+        <button class="btn-print" onclick="window.print()">Imprimir / Gerar PDF</button>
+    </div>
+
+    <div id="container"></div>
+
+    <script>
+        let marcados = JSON.parse(localStorage.getItem("bingo_v2")) || {};
+
+        function atualizarContador() {
+            const total = Object.keys(marcados).length;
+            document.getElementById("count").innerText = total;
+        }
+
+        function salvar() {
+            localStorage.setItem("bingo_v2", JSON.stringify(marcados));
+            atualizarContador();
+        }
+
+        function criarBloco(inicio, fim, titulo) {
+            const container = document.getElementById("container");
+            const bloco = document.createElement("div");
+            bloco.className = "bloco";
+
+            const tituloEl = document.createElement("div");
+            tituloEl.className = "titulo";
+            tituloEl.innerText = titulo;
+
+            const grid = document.createElement("div");
+            grid.className = "grid";
+
+            for (let i = inicio; i <= fim; i++) {
+                const num = document.createElement("div");
+                num.className = "numero";
+                num.innerText = i;
+
+                if (marcados[i]) num.classList.add("marcado");
+
+                num.onclick = () => {
+                    num.classList.toggle("marcado");
+                    if (num.classList.contains("marcado")) {
+                        marcados[i] = true;
+                    } else {
+                        delete marcados[i];
+                    }
+                    salvar();
+                };
+
+                grid.appendChild(num);
+            }
+
+            bloco.appendChild(tituloEl);
+            bloco.appendChild(grid);
+            container.appendChild(bloco);
+        }
+
+        function resetar() {
+            if (confirm("Isso apagará todos os registros de vendas. Confirmar?")) {
+                localStorage.removeItem("bingo_v2");
+                location.reload();
+            }
+        }
+
+        // Iniciar blocos
+        for (let i = 0; i < 6; i++) {
+            let ini = (i * 50) + 1;
+            let fim = ini + 49;
+            criarBloco(ini, fim, `De ${ini} a ${fim}`);
+        }
+
+        atualizarContador();
+
+    </script>
+
+</body>
+
+</html>
