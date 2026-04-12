@@ -36,3 +36,30 @@ Math.floor(): Arredonda o valor para baixo para termos um número inteiro.
 
 + min: Soma o valor mínimo para garantir que o resultado não comece em zero.
 */
+
+//ir para o bingo
+function bingo()
+{
+    const mudarPagina = document.getElementById('bingo');
+
+    if(mudarPagina){
+        mudarPagina.addEventListener('click', ()=>{
+            window.location.href = './src/pages/tela_bingo.html';
+        })
+    }
+}
+window.onload = bingo;
+
+
+function controleBingo()
+{
+    const telaControle = document.getElementById('controle');
+
+    if(telaControle)
+    {
+        telaControle.addEventListener('click', ()=>{
+            location.href = './src/pages/controleBingo.html'
+        })
+    }
+}
+window.onload = controleBingo
