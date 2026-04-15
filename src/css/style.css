@@ -131,3 +131,59 @@ dialog::backdrop {
         /* Ajuste leve no texto para telas menores */
     }
 }
+
+@media (max-width: 768px) {
+    /* ... outros estilos ... */
+
+    dialog[open] {
+        width: 95%;
+        max-height: 90vh;
+        /* Ocupa até 90% da altura da tela */
+
+        /* Mudança crucial aqui: */
+        display: block;
+        /* Flexbox pode cortar textos longos em modais */
+        overflow-y: auto;
+        /* Ativa a rolagem vertical */
+
+        /* Ajuste de centralização para display block */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        padding: 20px;
+        text-align: left;
+        /* Melhora a leitura em textos longos */
+    }
+
+    h1{
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    span{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        text-align: center;
+        margin: auto;
+    }
+
+    ul, li{
+        text-align: center;
+        list-style: none;
+    }
+
+    p{
+        border-top: 2px solid black;
+        padding: 20px;
+    }
+
+    /* Garante que imagens ou listas dentro do modal não estoure a largura */
+    dialog * {
+        max-width: 100%;
+        word-wrap: break-word;
+    }
+}
