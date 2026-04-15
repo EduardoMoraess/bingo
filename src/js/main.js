@@ -61,3 +61,22 @@ function iniciarScripts()
 
 // Chama uma única vez para carregar as duas funções
 window.onload = iniciarScripts;
+
+//modo de explicação de funcionalidade do sistema
+
+function telaHelp()
+{
+    const abrirModal = document.getElementById('abrirModal');
+    const fecharModal = document.getElementById('fecharModal')
+    const modal = document.querySelector('dialog');
+
+    abrirModal.addEventListener('click', ()=>{
+        //usar showModal()
+        modal.showModal();
+    })
+
+    fecharModal.addEventListener('click', ()=>{
+        modal.close()
+    })
+}
+telaHelp()

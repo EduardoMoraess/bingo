@@ -1,17 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Saira+Stencil:ital,wght@0,100..900;1,100..900&display=swap');
 
-:root{
+:root {
     --font-normal: "Poppins", sans-serif;
-    --font-numero: "Saira Stencil" , sans-serif;
+    --font-numero: "Saira Stencil", sans-serif;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: var(--font-normal);
 }
 
-.container{
+body {
+    background-color: dimgray;
+}
+
+.container {
     display: flex;
     gap: 20px;
     flex-direction: column;
@@ -27,7 +32,7 @@
     box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.6);
 }
 
-button{
+button {
     background-color: green;
     border: none;
     color: #fff;
@@ -35,8 +40,94 @@ button{
     padding: 10px;
 }
 
-#resultado{
+#resultado {
     font-family: var(--font-numero);
     font-size: 3rem;
     color: black;
+}
+
+/* Seletor específico para quando o modal está aberto */
+dialog[open] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Centralização na tela (importante para showModal) */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 700px;
+    padding: 20px;
+    border: none;
+    /* Opcional: remove borda padrão chata */
+    border-radius: 8px;
+    /* Opcional: deixa mais bonito */
+}
+
+/* O restante do seu código pode continuar igual */
+p {
+    font-size: 1.1rem;
+}
+
+span {
+    font-weight: bold;
+}
+
+strong {
+    color: blue;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Escurece o fundo */
+    backdrop-filter: blur(3px);
+    /* Dá aquele efeito de desfoque moderno */
+}
+
+#fecharModal {
+    margin: 10px auto;
+}
+
+/*modo responsivo*/
+/* Media Query para dispositivos com tela de até 768px (Tablets e Celulares) */
+@media (max-width: 768px) {
+
+    .container {
+        width: 90%;
+        /* Ocupa 90% da largura da tela */
+        margin: 50px auto;
+        /* Reduz a margem superior para não sumir no mobile */
+        padding: 15px;
+    }
+
+    dialog[open] {
+        width: 95%;
+        /* Modal ocupa quase a tela toda nas laterais */
+        max-height: 80vh;
+        /* Garante que o modal não ultrapasse a altura da tela */
+        overflow-y: auto;
+        /* Adiciona scroll caso o conteúdo de ajuda seja longo */
+        padding: 15px;
+    }
+
+    #resultado {
+        font-size: 2.5rem;
+        /* Diminui um pouco o número para não quebrar linha */
+    }
+
+    button {
+        width: 100%;
+        /* Botões ficam maiores e mais fáceis de clicar no touch */
+        font-size: 1.1rem;
+    }
+
+    p,
+    span,
+    ul {
+        font-size: 1rem;
+        /* Ajuste leve no texto para telas menores */
+    }
 }

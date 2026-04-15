@@ -17,7 +17,34 @@
         <button id="bingo">bingo</button>
         <button id="controle">controle</button>
         <div id="resultado"></div>
+        <a class="btn" id="abrirModal" href="#">Como funciona o sistema?</a>
     </div>
+
+    <dialog>
+        <h1 class="info">Explicação do sistema</h1>
+        <span>
+            O sistema do Bingo consiste em tres partes sendo elas:
+        </span>
+
+        <ul>
+            <li>Sorteador de numero 1 a 300</li>
+            <li>Bingo</li>
+            <li>Paniel de controle</li>
+        </ul>
+
+        <p>
+            <strong class="pergunta1">Como funciona?</strong>
+            O sistema consiste em uma logica de programação onde todas as informações do panel de controle e bingo são salvas localstorege
+            
+            <strong class="pergunta2">Oque é localstorege?</strong>
+            localstorege é o salvamentos de dados em modo local por exemplo quando um numero é marcado no panel de controle ele salva automaticamente no historico do navegador local do dispositivo sendo ele celular , tablet ou notebook.  Por isso as informações não se comunica entre dispositivos diferentes sendo mantidas apenas em um unico dispositivo.
+
+            <strong class="pergunta3">Como resolvi esse problema?</strong>
+            Para resolver esse problema eu implementei no sistema um modo onde pode ser baixada as tabelas dos numeros de 1 a 300 assim facilitando a troca de informações com os demais usuarios assim eles podem baixar as tabelas com os numeros ja vendidos e comunicar aos demais sobre a venda.
+        </p>
+
+        <button id="fecharModal">Fechar</button>
+    </dialog>
     <!--JAVASCRIPT-->
     <script src="/src/js/main.js"></script>
 </body>
